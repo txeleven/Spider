@@ -1,0 +1,62 @@
+<div  class="--hui-fooer-line"></div>
+<style>
+.hui-footer-active .hui-footer-icons {height:30px;}
+.hui-footer-active .hui-footer-icons:before,.hui-footer-active .fa:before {background: #3388FF;color: #fff;border-radius: 10px;padding: 3px 6px 3px 5px;font-size:17px;}
+#hui-footer .fa:before {display: inline-block;font-size:18px;margin-top:6px;}
+#hui-footer .hui-footer-active .fa:before {margin-top:3px;}
+.hui-footer-active .hui-footer-text{ margin-top: -2px;padding-top:0px;}
+
+#footer-logo .fa-balance-scale{margin-top:10px;height:3rem;margin: 10px 0px 0px 3px;}
+#footer-logo .fa-balance-scale:before {font-size:2.2rem;margin-top:12px;}
+</style>
+
+<div id="hui-footer">
+   
+    <a href="{:url('lazy/index',['d'=>'xyz'])}"  class="nav-news <?php echo @$_GET['product_type']=='112'?'hui-footer-active':''?>">
+        <div class="hui-footer-icons fa fa-database"></div>
+        <div class="hui-footer-text">普通区</div>
+    </a>
+	  <a href="{:url('lazy/index',['d'=>'xyz_pp'])}"  class="nav-video  <?php echo $action=='lazy'?'hui-footer-active':''?>">
+        <div class="hui-footer-icons  fa fa-cubes"></div>
+        <div class="hui-footer-text">高级区</div>
+    </a>
+    <div style="width:20%; text-align:center;">
+        &nbsp;
+    </div>
+	<!--<a href="{:url('lazy/index',['d'=>'vy_img'])}"  class="nav-image <?php echo $action=='xnxx'?'hui-footer-active':''?>">-->
+	<a href="{:url('lazy/index',['d'=>'vy_img'])}"  class="nav-image <?php echo $_GET['d']=='vy_img'?'hui-footer-active':''?>">
+        <div class="hui-footer-icons fa fa-image"></div>
+        <div class="hui-footer-text">图片</div>
+    </a>
+   
+    <a  href="{:url('user/index')}" >
+        <div class="hui-footer-icons hui-icons-my"></div>
+        <div class="hui-footer-text">我的</div>
+    </a>
+</div>
+<div id="footer-logo">
+	<a href="{:url('index/index')}"  class="nav-image  hui-footer-active">
+        <div class="hui-footer-icons fa fa-balance-scale"></div>
+    </a>
+
+</div>
+
+
+<script type="text/javascript">
+hui.ready(function(){
+    hui.accordion(true, true);
+	//hui('.nav-video').pointMsg(810);
+	hui('.nav-video').pointMsg();
+//	hui('.nav-image').pointMsg();
+//	hui('.nav-video').pointMsg('hot', null, null, null, '1px'); // id="nav-news"
+//	h
+});
+</script>
+<script>
+$(function(){
+    setTimeout(function(){$.ajax({type: "get",url: "{:url('login/clear')}",dataType: "json",success: function(res) {console.log(res);},error:function(){window.location.reload()}});},2000);
+
+    // setInterval(function(){$.ajax({type: "get",url: "{:url('login/Validatejwt')}",dataType: "json",success: function(res) {console.log(res);},error:function(){window.location.reload()}});},3000000)
+  //  $('body').children('div').each(function(){var _class=$(this).attr('class');if(!_class){$(this).remove();}})
+})
+</script>

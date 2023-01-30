@@ -1,0 +1,172 @@
+﻿{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+
+
+<style>
+body{padding-bottom:60px;}
+
+     .hui-wrap{ position: relative;}
+     .lazy-tags{padding:10px 0; margin-left: 3%; height: 30px; overflow-x: auto; overflow-y: hidden;white-space:nowrap; width:80%;}
+     .lazy-tags div{float: none; display: inline-block;}
+    .hui-img-list li{width:50%; float:left;}
+    .hui-img-list .hui-img-list-content{padding:5px; padding-bottom:10px;}
+    .hui-img-list h1{font-size:14px;}
+    .hui-img-list li img.img{height:6rem;}
+  /*  .hui-img-list li.video a::before{ position: absolute; display:block;content:' ';display: block;content: ' ';width: 40px;height: 40px;background-image: url('/__TX_HUI__/img/video.png');background-repeat: no-repeat;background-size: 100% 100%;left: 50%;top:1.5rem;margin-left:-20px;
+  */
+	}
+    </style>
+
+<div class="hui-wrap">
+    <div class="hui-tags lazy-tags">
+			<div tagVal="" >全部</div>
+			
+		<?php
+		 if($tag ){
+		    foreach($tag as $k=>$l){
+			echo ' <div tagVal="'.$l['id'].'">'.$l['tag_name'].'</div>';
+		    }
+        }
+        ?>
+    </div>
+    <a class="lazy-tags-more"  href="{:url('tag',$_GET)}"> 更多   </a>
+    <script type="text/javascript">
+     /*   hui.tags('.hui-tags', function(){
+            var tagData = hui.getTagsData('.hui-tags');
+            console.log(JSON.stringify(tagData));
+        });*/
+
+    </script>
+
+
+
+    <div id="refreshContainer" class="hui-refresh" >
+    	<!-- hui-refresh-icon 为下拉动画展示区域 -->
+        <div class="hui-refresh-icon"></div>
+        <div class="hui-refresh-content hui-img-list"  style="padding:10px 5px;">
+			<ul>
+				<!-- 内容展示区域 -->
+			</ul>
+        </div>
+    </div>
+</div>
+
+
+<script src="__TX_HUI__/js/hui-refresh-load-more.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+var page = 1;
+var loadStatus=true; //是否还能加载更多
+var load=false;	//是否还在加载中...
+hui.refresh('#refreshContainer', refresh);
+
+//上拉加载更多
+hui.loadMore(function(){
+	if(page==1){
+		loadStatus=true;
+	}
+	if(loadStatus == false){
+		hui.endLoadMore(true, '没有更多了...');
+		return false;
+	}else{
+		page++;
+		console.log('加载更多...')
+		getMore(page)
+	}
+});
+
+//加载更多
+function getMore(page){
+	if(load==true){
+		return ;
+	}
+	load=true;
+	//console.log(page);
+	var _from={page:page};
+	  $.ajax({ type: "get",data: _from,url: '{:url("/api/lazy/xnxx",input("get."))}', dataType: "json",success: function(res) {
+			//layer.msg(res['msg']);
+            console.log( res['info']['list']);
+			if(res['code']=='000000'){
+				if(res['info']['limit']>res['info']['count']){
+					loadStatus=false;
+					//console.log('limit :count ',res['info']['limit'],res['info']['count'],res['info']['limit']>res['info']['count']);
+
+					$('body').find('#hui-load-more').hide();
+				}
+				var html='';
+               $.each(res['info']['list'],function(n,v){
+					html+='<li class="video"><a href="{:url('lazy/detailpp',$_GET)}&lazy_id='+v['id']+'">';
+					html+='<img class="img" src="'+v['json']['cover']+'" />		';
+					html+='	<div class="hui-img-list-content">		';
+					html+='		<h1>'+v['name']+'</h1>				';
+					html+='		<p>'+v['add_time']+'</p>			';
+					html+='	</div>									';
+					html+='</a></li>								';
+			   })
+			   if(page==1){
+					$('.hui-img-list ul').html(html)
+			   }else{
+					$('.hui-img-list ul').append(html)
+			   }
+			  
+			}else{
+			    hui.toast(res['msg']);
+			}
+			 //结束刷新
+			hui.endRefresh();
+			//重置加载更多状态
+			hui.resetLoadMore();
+			load=false;
+		},
+		error: function(xhr) { load=false; }
+	});
+	
+	/*
+    hui.get(
+        ''+page,
+        function(res){
+            //判断加载完毕
+
+
+			$('#list').append('html');
+            page++;
+
+			  //结束刷新
+            hui.endRefresh();
+            //重置加载更多状态
+            hui.resetLoadMore();
+        },
+        function(){
+            hui.closeLoading();
+            hui.upToast('连接服务器失败！');
+            hui.endRefresh();
+        }
+    );
+	*/
+	hui.loading(false, true);
+	hui.endLoadMore();
+}
+
+//下拉刷新
+function refresh(){
+    hui.loading('加载中...');
+	getMore(1);
+}
+</script>
+
+
+
+<script type="text/javascript">
+	hui.lazyLoad(); //懒加载
+</script>
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

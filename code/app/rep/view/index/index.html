@@ -1,0 +1,127 @@
+{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+<style>
+.hui-swipe,.hui-swipe-item,.hui-swipe-item img{height:13rem;}
+</style>
+<div style="padding:10px;">
+    <div class="hui-swipe" id="swipe">
+        <div class="hui-swipe-items">
+			<?php foreach($banner as $v){
+			echo ' <div class="hui-swipe-item"><a href="'.url('lazy/detail',['lazy_id'=>$v['id'],'d'=>$v['domain']]).'"><img src="'.$v['json']['cover'].'"/></a></div>';
+			}?>
+           
+        </div>
+    </div>
+</div>
+<script src="__TX_HUI__/js/hui-swipe.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    var swipe = new huiSwpie('#swipe');
+    swipe.autoPlay = false;
+    swipe.run();
+$(function(){
+	$('.hui-swipe-item img').each(function(){
+		$(this).load(function(e){
+			console.log(e.readyState,$(this).attr('src'))
+			ImageThis($(this))
+		})
+	})
+})
+</script>
+<style>
+.hui-speed-dial ul li{width:20%;}
+.hui-speed-dial ul li .img{width:80%;height:4rem;overflow:hidden; margin: 0 auto;border-radius: 5rem;}
+.hui-speed-dial ul li img.image{height:100px;}
+</style>
+<div style="padding:10px;">
+	<div class="hui-speed-dial">
+		<ul>
+			<?php foreach($tag as $k=>$v){ ?>
+			<li> 
+				<a href="<?php echo url('lazy/index',['tag_id'=>$v['id'],'d'=>$v['domain']])?>">
+					<div class="img"><img src="<?php echo $v['image']?>" /></div>
+					<div class="hui-speed-dial-text"><?php echo $v['tag_name']?></div>
+				</a>
+			</li>
+			<?php }?>
+			
+			
+			<!--
+			<li>
+				<a href="">
+				 <div class="img"><img src="https://zjh-uc.zjer.cn/330000/uploads/avatar/user/67/93/0faa236664da4099999502c8b3315fce.jpg" /></div>
+				<div class="hui-speed-dial-text">好莱坞</div>
+				</a>
+			</li>
+			-->
+			
+		</ul>
+	</div>
+</div>	
+<script>
+
+$(function(){
+	$('img').load(function(){
+		$('.hui-speed-dial .img').height($('.hui-speed-dial .img').width())
+		AutoResizeImage('.hui-speed-dial .img img')
+	})
+	$(window).resize(function(){
+		$('.hui-speed-dial .img').height($('.hui-speed-dial .img').width())
+		AutoResizeImage('.hui-speed-dial .img img')
+		
+	})
+})
+</script>
+
+<style>
+	.hui-img-list {padding-top:30px;}
+	.hui-img-list li{width:50%; float:left; 0px;}
+	.hui-img-list .hui-img-list-content{padding:5px; padding-bottom:10px;}
+	.hui-img-list img.image{height:6rem;  background: #000;}
+	.hui-img-list h1{font-size:14px;}
+
+</style>
+<div class="hui-img-list"><ul></ul></div>
+<script>
+
+		AjaxData('GET', '{:url('/api/lazy/ajax',['page'=>1,'d'=> 'xyz'])}',{},function(res){
+			console.log(res);
+			 if(res['code']=='000000'){
+			 var html='';
+					 $.each(res['info']['list'],function(n,v){
+						html+= '<li>';
+						html+= ' <a href="<?php echo url('lazy/detail')?>?d='+v['domain']+'&lazy_id='+v['id']+'">';
+							html+= '<div class="image-info"><img src="'+v['image']+'"  class="image"/></div>';
+							html+='	<img src="__TX_HUI__/img/video.png" class="play-btn">';
+							html+= ' <div class="hui-img-list-content">';
+							 html+= ' <h1 style="height:30px;overflow:hidden;">'+v['name']+'</h1>';
+							html+= ' <p></p>';
+							html+=  ' </div> ';
+							html+= ' </a>';
+						html+= ' </li>';
+					});
+				$('.hui-img-list ul').html(html);	
+				$('.hui-img-list').find('img.image').each(function(){
+					$(this).load(function(e){
+						//console.log(e.readyState,$(this).attr('src'))
+						ImageThis($(this))
+					})
+				})
+			}else{
+			hui.toast(res['msg']);
+			}
+		})	
+		
+	</script>	
+
+
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

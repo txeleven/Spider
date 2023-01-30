@@ -1,0 +1,246 @@
+﻿{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+
+
+<style>
+body{padding-bottom:60px;}
+
+     .hui-wrap{ position: relative;}
+     .lazy-tags{padding:10px 0; margin-left: 3%; height: 30px; overflow-x: auto; overflow-y: hidden;white-space:nowrap; width:80%;}
+     .lazy-tags div{float: none; display: inline-block;}
+    .hui-img-list li{width:50%; float:left;}
+    .hui-img-list .hui-img-list-content{padding:5px; padding-bottom:10px;}
+    .hui-img-list h1{font-size:14px;}
+	.hui-img-list img.image{height:6rem;  background: #000;}
+    .lazy-tags input{border: 1px solid #eee;border-radius: 5px;height: 1.8rem;width: 99%;}
+    </style>	
+	<?php if(in_array($_GET['d'],['vy_x'])){?>
+    <style>	
+.hui-img-list .image-info{display:none;}
+.hui-img-list li{width:100%;border-bottom: 1px #ccc double;height: 40px;}
+.hui-img-list li h1{width: 60%;display: inline-block;}
+.hui-img-list li p{width: 33%;display: inline-block;    text-align: right;    top: -10px;
+
+    position: relative;}
+    </style>
+	<?php } ?>
+
+<div class="hui-wrap">
+
+        <?php
+      //  var_dump($tag);exit;
+		 if($tag){
+            echo ' <div class="hui-tags lazy-tags" style="width:auto;padding-right: 80px;">';
+            if(in_array($_GET['d'],['xyz','xyz_pp','xvideo','xvideos','porn_video','porn_gif','xnxx_video'])){
+                 echo '<div tagVal="" class="hui-tags-active">默认</div>';
+            }
+             $i=0;
+                foreach($tag as $k=>$l){
+                    if($l['type_name']){
+                         echo '<div tagVal="'.($l['type_id']?$l['type_id']:$l['type_name']).'" '.(in_array($_GET['d'],['vy_img','vy_x','vy','vy_video']) && $i==0?'class="hui-tags-active"':'').' >'.$l['type_name'].'</div>';
+                        $i++;
+                    }
+
+                 }
+            echo '</div>';
+    }
+
+    if(in_array($_GET['d'],['xyz','xyz_pp','xvideo','xvideos','porn_video','porn_gifs','xnxx_video'])){
+         echo ' <div class="hui-tags lazy-tags search-input" style="position: absolute;top: 1px;background: #fff;left: 0;width: 100%;z-index: 1;margin: 0; display:none;"><input style="width: 82%;margin-left:2%;display: block;"></div><a class="lazy-tags-more lazy-search" style="background: #fff;height: 36px;padding-left: 10px;z-index:2;"  href="javascript:;"> 搜索 </a>';
+
+    }
+
+ ?>
+
+
+
+    <script type="text/javascript">
+		$('.lazy-search').click(function(){
+			if($('.search-input').css('display')!='none'){
+				 $('.hui-img-list ul').html('')
+				getMore(1);
+			}else{
+				$('.search-input').show();
+			}
+           
+			
+		})
+        $(".lazy-tags input").keydown(function(event) {
+            if(event.keyCode==13){
+                $('.hui-img-list ul').html('')
+                getMore(1);
+            }
+
+		})
+    </script>
+<script type="text/javascript">
+    $('.lazy-tags div').click(function(){
+        $(this).parent().find('div').removeClass('hui-tags-active')
+        $(this).addClass('hui-tags-active');
+        getMore(1);
+    })
+
+
+</script>
+
+
+    <div id="refreshContainer" class="hui-refresh" >
+    	<!-- hui-refresh-icon 为下拉动画展示区域 -->
+        <div class="hui-refresh-icon"></div>
+        <div class="hui-refresh-content hui-img-list"  style="padding:10px 5px;">
+			<ul>
+				<!-- 内容展示区域 -->
+			</ul>
+        </div>
+    </div>
+</div>
+
+
+<script src="__TX_HUI__/js/hui-refresh-load-more.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+var page = 1;
+var loadStatus=true; //是否还能加载更多
+var load=false;	//是否还在加载中...
+hui.refresh('#refreshContainer', refresh);
+
+//上拉加载更多
+hui.loadMore(function(){
+	if(page==1){
+		loadStatus=true;
+	}
+	if(loadStatus == false){
+		hui.endLoadMore(true, '没有更多了...');
+		return false;
+	}else{
+		page++;
+		console.log('加载更多...')
+		getMore(page)
+	}
+});
+
+//加载更多
+function getMore(page){
+	if(load==true){
+		return ;
+	}
+    hui.loading('加载中...');
+    console.log('loading');
+	load=true;
+	//console.log(page);
+	var _from={page:page};
+		_from['tag_id']=$('.lazy-tags').find('.hui-tags-active').attr('tagVal')?$('.lazy-tags').find('.hui-tags-active').attr('tagVal'):'';
+		_from['search']=$('.lazy-tags').find('input').val();
+		var _clear=$('.lazy-tags div').eq(0).hasClass('hui-tags-active');
+
+		if(!_clear){
+			$('.lazy-tags div.hui-tags-active').each(function(){
+				_from[$(this).attr('name')]=$(this).attr('value');
+			})
+		}
+
+		// console.log(_clear,_from);
+		_from['by']=$('.lazy-tags').find('[name=by]').val();
+	  $.ajax({ type: "get",data: _from,url: '{:url("lazy/ajax",$_GET)}', dataType: "json",success: function(res) {
+			//layer.msg(res['msg']);
+            console.log( res['info']['list']);
+			if(res['code']=='000000'){
+				if(res['info']['limit']>res['info']['count']){
+					loadStatus=false;
+					//console.log('limit :count ',res['info']['limit'],res['info']['count'],res['info']['limit']>res['info']['count']);
+
+					$('body').find('#hui-load-more').hide();
+				}
+				var html='';
+                if(res['info']['list']) {
+                    $.each(res['info']['list'], function (n, v) {
+                        console.log(v);
+                        html += '<li class="video"><a href="{:url('lazy/detail',['d'=>$_GET['d']])}&orig_id=' + v['orig_id'] + '&tag_id=' + _from['tag_id'] + '" >';
+                        html += '<div class="image-info"><img class="image" src="' + v['image'] + '" /></div>';
+                        if (v['domain'] == 'xyz' || v['domain'] == 'xyz_pp' || v['domain'] == 'xvideos' || '{$_GET["d"]}'.indexOf('video')>=0) {
+                            html += '	<img src="__TX_HUI__/img/video.png" class="play-btn">';
+                        }
+
+                        html += '	<div class="hui-img-list-content">		';
+                        html += '		<h1 style="height:30px;overflow:hidden;">' + v['name'] + '</h1>				';
+                        //	html+='		<p>'+v['add_time']+'</p>			';
+                        html += '	</div>									';
+                        html += '</a></li>								';
+                    })
+                    if (page == 1) {
+                        $('.hui-img-list ul').html(html)
+                    } else {
+                        $('.hui-img-list ul').append(html)
+                    }
+                }else{
+                    hui.toast('未查询到内容')
+                }
+			   console.log($('.hui-img-list').find('.image').size())
+				$('.hui-img-list').find('.image').each(function(){
+					$(this).load(function(e){
+						console.log(e.readyState,$(this).attr('src'))
+						ImageThis($(this))
+					})
+				})
+			}else{
+			    hui.toast(res['msg']);
+			}
+
+              load=false;
+		},
+		error: function(xhr) { load=false; }
+	});
+    //结束刷新
+    hui.endRefresh();
+    //重置加载更多状态
+    hui.resetLoadMore();
+    hui.loading(false, true);
+	
+	/*
+    hui.get(
+        ''+page,
+        function(res){
+            //判断加载完毕
+
+
+			$('#list').append('html');
+            page++;
+
+			  //结束刷新
+            hui.endRefresh();
+            //重置加载更多状态
+            hui.resetLoadMore();
+        },
+        function(){
+            hui.closeLoading();
+            hui.upToast('连接服务器失败！');
+            hui.endRefresh();
+        }
+    );
+	*/
+	hui.endLoadMore();
+}
+
+//下拉刷新
+function refresh(){
+ //   hui.loading('加载中...');
+	getMore(1);
+}
+</script>
+
+
+
+<script type="text/javascript">
+	hui.lazyLoad(); //懒加载
+</script>
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

@@ -1,0 +1,203 @@
+{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+<style>
+.user-logo{width:110px; height:80px;display: block;margin: 0 auto;position: relative; padding:20px 0;}
+
+.user-logo .add{position: absolute;top:1rem;right:1rem}
+.user-logo .add .hui-icons-write{ }
+.user-logo .add .hui-icons-write:before{font-size:1.5rem;}
+.user-logo .add { display:none;}
+.user-logo-edit .add { display:block;}
+.change-image{height:100%;width:100%;position: absolute;top:0;left:0;opacity:0;}
+</style>
+<div class="hui-wrap">
+    <form style="padding:28px 10px;" class="hui-form user-form">
+        	<div class="hui-list-icons user-logo user-logo-edit">
+				<div class="hui-speed-dial-icons add"><span class="hui-icons hui-icons-write"></span></div>
+    			<img src="{$user['headimgurl']['logo']?$user['headimgurl']['logo']:'__TX_HUI__/img/list/home.png'}" style="width:66px;height:66px; margin:0px; border-radius:50%;" />
+				<input class="change-image" type="file"/>
+    		</div>
+			
+		
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">账号</div>
+            <input type="text" class="hui-input hui-input-clear" name="user_name" value="{$user['user_name']}"  />
+        </div>
+		
+		<?php if($_GET['edit']=='pwd'){?>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">密码</div>
+            <input type="password" class="hui-input" placeholder="密码" name="password"  />
+        </div>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">确认密码</div>
+            <input type="password" class="hui-input" placeholder="确认密码" name="repassword"   />
+        </div>
+		<style>.user-edit-btn,.user-logo-edit .add,.user-logo-edit input{ display:none;}</style>
+		<?php }else if($_GET['edit']=='info'){?>
+		
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">姓名</div>
+            <input type="text" class="hui-input hui-input-clear" name="name" value="{$user['name']}"  />
+        </div>
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">手机号码</div>
+			{$user['phone']}
+        </div>  
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">邮箱</div>
+            <input type="number" class="hui-input" placeholder="邮箱" name="email"  value="{$user['email']}"  />
+        </div>
+		
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">身份证号</div>
+            <input type="number" class="hui-input" placeholder="身份证号" name="id_card"  value="{$user['id_card']}"  />
+        </div>
+		
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">所属银行</div>
+            <input type="number" class="hui-input" placeholder="银行卡号所属银行" name="bank_name"  value="{$user['bank_name']}"  />
+        </div>
+		
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">银行卡号</div>
+            <input type="number" class="hui-input" placeholder="银行卡号" name="bank_card_number"  value="{$user['bank_card_number']}"  />
+        </div>
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">地址</div>
+            <input type="number" class="hui-input" placeholder="地址" name="address"  value="{$user['address']}"  />
+        </div>
+		<!--
+		<div class="hui-form-items">
+            <div class="hui-form-items-title">性别</div>
+            <div class="hui-form-radios" style="line-height:38px;">
+			     <input type="radio" value="1" name="sex" id="g2" onchange="showSelectRes(this);" /><label for="g2">男生</label>
+                <input type="radio" value="2" name="sex" id="g1" checked  onchange="showSelectRes(this);" /><label for="g1">女</label>
+            </div>
+        </div>
+		
+		
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">爱好</div>
+            <div class="hui-form-radios" id="loves">
+                <input type="checkbox" value="1" name="aihao[]" id="c1" /><label for="c1">读书</label>
+                <input type="checkbox" value="2" name="aihao[]" id="c2" /><label for="c2">写字</label>
+            </div>
+        </div>
+		
+     
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">备注</div>
+            <div class="hui-form-textarea">
+                <textarea placeholder="备注..." name="note"></textarea>
+            </div>
+        </div>
+		-->
+		<script type="text/javascript">
+			$(function(){
+
+			$('.edit-submit-btn').hide();
+			$('.user-logo').removeClass('user-logo-edit');
+			$('.user-form').find('input').prop('disabled',true).removeAttr('placeholder');
+
+				$('.user-edit-btn').click(function(){
+					$('.edit-submit-btn').show();
+					$('.user-logo').addClass('user-logo-edit');
+					$('.user-edit-btn').parent().hide();
+					$('.user-form').find('input').prop('disabled',false).attr('placeholder','请填写')
+				})
+			})
+		</script>
+		<?php }?>
+        <div style="padding:15px 8px;text-align:center">
+            <button type="button" class="hui-button hui-primary edit-submit-btn" style="display: inline-block;" >保存信息</button>
+        </div>
+		<div style="padding:15px 8px;text-align:center">
+            <b type="button" class="hui-button  hui-button-large user-edit-btn" >修改信息</b>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $('.edit-submit-btn').click(function(){
+
+            // var formData = new FormData();
+            // $('.memberInfo-item input').each(function(){
+            //     var _name=$(this).attr('name')
+            //     var _val=$(this).val()
+            //     formData.append(_name, _val);
+            // })
+         //   var data=$('form').serializeArray();
+            var data={};
+            if($('[name=phone]').val()) data['phone'] = $('[name=phone]').val();
+            if($('[name=email]').val()) data['email'] = $('[name=email]').val();
+            if($('[name=user_name]').val()) data['user_name'] = $('[name=user_name]').val();
+            if($('[name=name]').val()) data['name'] = $('[name=name]').val();
+            if($('[name=id_card]').val()) data['id_card'] =$('[name=id_card]').val();
+            if($('[name=address]').val()) data['address'] =$('[name=address]').val();
+            if($('[name=bank_card_number]').val()) data['bank_card_number'] = $('[name=bank_card_number]').val();
+            if($('[name=bank_name]').val()) data['bank_name'] = $('[name=bank_name]').val();
+            if($('[name=password]').val()) data['password'] = $('[name=password]').val();
+            if($('[name=repassword]').val()) data['repassword'] = $('[name=repassword]').val();
+
+			AjaxData('POST', '{:url("/api/user/edit",$_GET)}',data,function(res){
+				 console.log(res);
+				 hui.toast(res['msg']);
+                    if(res['code']=='000000'){
+                        setTimeout(function(){
+                            window.location.reload()
+                        },3000)
+                    }
+			})	
+			/*
+return ;
+
+            console.log(formData);
+            $.ajax({ type: "post", data: formData,
+                processData: false,
+                contentType: false, url: '{:url("/api/user/edit",$_GET)}', dataType: "json",success: function(res) {
+                    hui.toast(res['msg']);
+                    if(res['code']=='000000'){
+                        setTimeout(function(){
+                            window.location.reload()
+                        },3000)
+                    }
+                },
+                error: function(xhr) {hui.toast('失败，请联系管理员');}
+            });
+*/
+    })
+
+</script>
+<script>
+
+    $('.change-image').change(function () {
+        $(this).parent().find('img').attr('src',getObjectURL($(this)[0].files[0]));
+		 var formData = new FormData();
+			formData.append("image", $(".change-image")[0].files[0]);
+
+		console.log(formData);
+		$.ajax({ type: "post", data: formData,processData: false,
+			contentType: false, url: '{:url("user/editUserLogo",$_GET)}', dataType: "json",success: function(res) {
+				hui.toast(res['msg']);
+				 if(res['code']=='000000'){
+				 
+				 }
+			},
+			error: function(xhr) {hui.toast('失败，请联系管理员');}
+		});
+    })
+</script>
+
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

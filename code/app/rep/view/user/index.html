@@ -1,0 +1,95 @@
+{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+<style>   
+body{ background: #F0EFF5;}
+.text-list{height:auto;line-height:1.5rem; margin:1rem;white-space: inherit;margin: 0.5rem;background: #fff;padding: 1rem;border-radius: 5px;text-align:center;}
+.manage{position: absolute;right: 0;top: 50px;width: 110px;}
+.manage .hui-icons-write{font-size:18px;margin-right:5px;}
+</style>
+<div class="hui-wrap">
+<?php if(is_numeric($user['id']) && $user['id']<=19){?>
+	<a href="{:url('manage/config')}" class="hui-speed-dial-icons manage"><span class="hui-icons hui-icons-write"></span>修改配置</a>
+<?php }?>
+    <div class="hui-list" style="background:#FFFFFF; margin-top:0px; border-bottom: none;">
+        <span href="###{:url('user/detail',['edit'=>'info'])}" style="height:auto; height:80px; padding-bottom:8px;    display: flex;">
+    		<div class="hui-list-icons" style="width:110px; height:80px;">
+    			<img src="{$user['headimgurl']['logo']?$user['headimgurl']['logo']:'__TX_HUI__/img/list/home.png'}" style="width:66px;height:66px; margin:0px; border-radius:50%;" />
+    		</div>
+			
+    		<div class="hui-list-text" style="height:79px; line-height:79px;border: none;">
+    			<div class="hui-list-text-content" style="line-height: 1.5rem;padding-top:20px;">
+				账号:{$user['user_name']}<br>
+				密码:<?php echo (md5('123456')==$user['password']?'123456':'已修改')?> <a href="{:url('user/detail',['edit'=>'pwd'])}" class="hui-b-red" style="margin-left: 0.5rem;"> 修改密码</a>
+				</div>
+				<!--
+    			<div class="hui-list-info">
+    				<span class="hui-icons hui-icons-right"></span>
+    			</div>
+				-->
+    		</div>
+    	</span>
+
+
+    </div>
+
+    <div  class="text-list">
+		<span class="text">没穿衣服的动作电影，复制去浏览器打开，直接就能看，不玩套路：<?php echo ($is_https) ?>://<?php echo $_SERVER['HTTP_HOST'];?>/?tgd=<?php echo $user['id']?> </span>
+		<br>
+		<b class="hui-b-red" style="font-size:0.85rem;">点我复制你的专属推广链接
+		</b>
+	</div>			
+<script>
+	
+    function copyToClip(content, message) {
+        let aux = document.createElement("input");
+        aux.setAttribute("value", content);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+        hui.toast(message);
+    }
+	
+	$('.text-list .hui-b-red').click(function(){
+		var content=$('.text-list').find('.text').text();
+		console.log(content);
+		copyToClip(content, '复制成功')
+
+	})
+</script>
+
+   
+	
+	
+	<div style="padding: 0.5rem 0.5rem 5rem 0.5rem;">
+        <a class="hui-button hui-button-large user-logout">
+        	<span class="hui-icons hui-icons-logoff"></span>退出账号
+       	</a>
+    </div>
+	<script>
+	
+   
+	
+	$('.user-logout').click(function(){
+		
+		AjaxData('GET', '{:url('login/logout')}',{},function(rel){
+			 hui.toast(rel['msg']);
+			 window.location.reload();
+		})	
+
+	})
+</script>
+
+	
+</div>
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

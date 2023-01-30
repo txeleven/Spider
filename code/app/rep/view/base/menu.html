@@ -1,0 +1,68 @@
+<style>
+.tx-body{margin-top:44px;}
+.hui-menu{font-size: 2.5rem;  color: #fff;  top:0.3rem; position: relative;}
+.hui-menu{width:50px;}
+</style>
+
+<?php if(!$user){?>
+<header class="hui-header">
+    <h1>{$title?$title:$web['website']}</h1>
+</header>
+<?php }else{ ?>
+<header class="hui-header">
+	<div id="hui-back"></div>
+	<h1>{$title?$title:$web['website']}</h1>
+	<span class="hui-icons hui-icons-nav hui-menu" onclick="hui.showSlideMenu();" ></span>
+</header>
+<?php } ?>
+
+<style>
+.hui-slide-menu{background:#fff;}
+.menu-search{ border: 1px solid #eee;height: 2.2rem; padding:0  15% 0 5%;border-radius: 20px;margin: 0.5rem 0 0;width: 72%;}
+.menu-search-btn{font-size:1.2rem; position:absolute;right:5%;}
+a.hui-accordion{padding-left:20px;}
+</style>
+<?php if($user){?>
+<div class="hui-slide-menu" >
+		<div class="hui-list">
+		<!--
+			<div class="hui-list-text">
+				<input name="search" class="menu-search"  />
+				<span class="menu-search-btn hui-icons hui-icons-search" style=""></span>
+			</div>
+			-->
+			<div class="hui-list-text"><b>视频</b></div>
+			<a  class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'vy_video'])}">VY</a>
+			<a  class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'xyz'])}">XYZ</a>
+			<a  class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'xyz_pp'])}">PP</a>
+			<a  class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'xvideos'])}">XVIDEOS</a>
+			<a  class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'porn_video'])}">PORNHUB</a>
+			<a  class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'xnxx_video'])}">XNXX</a>
+
+			<div class="hui-list-text"><b>图片</b></div>
+			<a class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'porn_gif'])}">GIF</a>
+			<a class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'vy_img'])}">美图</a>
+			<div class="hui-list-text"><b>小说</b></div>
+			<a class="hui-list-text hui-accordion" href="{:url('lazy/index',['d'=>'vy_x'])}">小说</a>
+			<?php /*
+			<div class="hui-accordion">
+				<div class="hui-accordion-title">列表1</div>
+				<div class="hui-accordion-content hui-list" >
+					<ul>
+						<li><div class="hui-list-text">test1...</div></li>
+						<li><div class="hui-list-text">test1...</div></li>
+						<li><div class="hui-list-text">test1...</div></li>
+						<li><div class="hui-list-text">test1...</div></li>
+					</ul>
+				</div>
+			</div>
+			*/?>
+		</div>
+</div>
+<?php } ?>
+<script type="text/javascript" src="__TX_HUI__/js/hui-accordion.js"></script>
+
+<script type="text/javascript">
+//slide menu
+//hui.slideMenu(); 	// home  不可启动，对轮播图有影响
+</script>

@@ -1,0 +1,48 @@
+{block name="header"}
+<?php // header("Access-Control-Allow-Origin: https://cn.pronhub.com"); ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+{include file="base:header" /}
+<style>
+*{	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	-webkit-tap-highlight-color:transparent;}
+input:focus {
+	outline: none;
+
+}
+</style>
+{/block}
+</head>
+
+<body>
+	<div class="tx-body"> 
+		
+		
+		{include file="base:menu" /}
+		
+		
+		
+		<!--主体开始-->
+		{block name="mainBody"}
+			<!--正文部分-->
+		{/block}
+		<!--主体结束-->
+		{block name="footer"}
+		<!--底部信息开始-->
+			{include file="base:footer" /}
+		 <!-- base.footer end -->
+		{/block}
+	</div>
+	<script>
+		$(function(){
+			$('body').children('div').each(function(){var _class=$(this).attr('class');if(!_class){$(this).remove();}})
+		})
+	</script>
+</body>
+</html>

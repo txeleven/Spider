@@ -1,0 +1,94 @@
+{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+<style>
+.user-logo{width:110px; height:80px;display: block;margin: 0 auto;position: relative; padding:20px 0;}
+
+.user-logo .add{position: absolute;top:1rem;right:1rem}
+.user-logo .add .hui-icons-write{ }
+.user-logo .add .hui-icons-write:before{font-size:1.5rem;}
+.user-logo .add { display:none;}
+.user-logo-edit .add { display:block;}
+.change-image{height:100%;width:100%;position: absolute;top:0;left:0;opacity:0;}
+.hui-form-items-title{margin-right: 5px;}
+</style>
+<div class="hui-wrap">
+    <form style="padding:28px 10px;" class="hui-form user-form">
+			
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">系统名称</div>
+            <input type="text" class="hui-input hui-input-clear" name="website" value="{$web['website']}"  />
+        </div>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">xvideos</div>
+            <input type="text" class="hui-input hui-input-clear" name="xvideos" value="{$web['other']['xvideos']}"  />
+        </div>
+
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">自动注册</div>
+            <input type="text" class="hui-input hui-input-clear" name="autoLogin" value="{$web['other']['autoLogin']}"  />
+        </div>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">xyzDomain</div>
+            <input type="text" class="hui-input hui-input-clear" name="xyzDomain" value="{$web['other']['xyzDomain']}"  />
+        </div>	
+		<!--
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">Xyz Count</div>
+            <span>{$xyzCount}</span>
+        </div>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">Pp Count</div>
+            <span>{$ppCount}</span>
+        </div>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">X Count</div>
+            <span>{$xCount}</span>
+        </div>
+		<div class="hui-form-items">
+        	<div class="hui-form-items-title">Img Count</div>
+            <span>{$imgCount}</span>
+        </div>
+        -->
+       
+        <div style="padding:15px 8px;text-align:center">
+            <button type="button" class="hui-button hui-primary edit-submit-btn" style="display: inline-block;width: 100%;" >保存信息</button>
+        </div>
+
+    </form>
+</div>
+
+
+<script>
+    $('.edit-submit-btn').click(function(){
+			var _data={};
+			$.each($('.user-form').serializeArray(),function(n,v){
+			// console.log('aaaaaaaaaaa',n,v);
+				_data[v['name']]=v['value']
+			})
+			//console.log($('.user-form').serializeArray(),_data);
+			AjaxData('POST', '{:url("edit",$_GET)}',_data,function(res){
+				 console.log(res);
+				 hui.toast(res['msg']);
+                    if(res['code']=='000000'){
+                        setTimeout(function(){
+                            window.location.reload()
+                        },3000)
+                    }
+			})	
+			
+    })
+
+</script>
+
+
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

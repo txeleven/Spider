@@ -1,0 +1,99 @@
+
+<title>{$title?$title:$web['website']}</title>
+<link rel="stylesheet" type="text/css" href="__TX_HUI__/css/hui.css" />
+<link rel="stylesheet" type="text/css" href="__TX_HUI__/css/common.css?v=2" />
+<script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="__TX_HUI__/js/hui.js" charset="UTF-8"></script>
+<script type="text/javascript" src="__TX_HUI__/js/hui-accordion.js"></script>
+<link href="__PUBLIC__/fontawesome/font-awesome.min93e3.css" rel="stylesheet">
+<meta name="referrer" content="never">
+
+<style type="text/css">
+body{background:#FFF;}
+.line{height:20px;}
+</style>
+
+
+    <script>
+        function getObjectURL(file) {
+            var url = null ;
+            if (window.createObjectURL!=undefined) { // basic
+                url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+        }
+    </script>    
+	
+	<script>
+        function AjaxData(type,url,_data,relust) {
+          $.ajax({
+				url: url,
+				type: type,
+				cache: false,
+				dataType: "json",
+				data: JSON.stringify(_data),
+				processData: false,
+				contentType: false,
+				success: function(res) {
+					relust(res)
+				},error: function(xhr) {}	//hui.toast('失败，请联系管理员');
+			})
+        }
+    </script>	
+	<script>
+	//图片自适应
+        function ImageThis(_this,maxWidth,maxHeight) {
+			//	var _this=$(this);
+				if(!maxWidth) maxWidth=_this.parent().width();
+				if(!maxHeight)  maxHeight=_this.parent().height()
+				var img = new Image();
+				img.src = _this.attr('src');
+				if (img.complete) {
+					//callback(img);
+					//return ;
+				}
+				//console.log(_this.attr('src'));
+				//    img.onerror=function(){alert("error!")};  
+
+			//	img.onError=function(){
+					//console.log('onerror');
+					//_this.attr('src','__TX_HUI__/img/swipe/1.jpg')
+				//}
+				img.onload = function() {
+					var w = img.width;
+					var h = img.height;
+					var line;
+					var newWidth,newHeight;
+					var marginTop,marginLeft;
+					if(w>maxWidth){
+						line=maxWidth/w;
+						newWidth=maxWidth;
+						newHeight=line*h;
+						marginLeft=0;
+						marginTop=(maxHeight-newHeight)/2;
+					}
+					if(newHeight<maxHeight){
+						line=maxHeight/h;
+						newHeight=maxHeight;
+						newWidth=line*w;
+						marginTop=0;
+						marginLeft=(maxWidth-newWidth)/2;
+					}
+					//console.log(objImgs,maxHeight,{'height':newHeight,'width':newWidth,'margin-left':marginLeft,'margin-top':marginTop});
+					_this.css({'height':newHeight,'width':newWidth,'margin-left':marginLeft,'margin-top':marginTop});
+				}
+			
+		}//图片自适应
+        function AutoResizeImage(objImgs,maxWidth,maxHeight) {
+			$('body').find(objImgs).each(function(){
+				ImageThis($(this),maxWidth,maxHeight)
+			
+			})
+		}
+
+
+    </script>

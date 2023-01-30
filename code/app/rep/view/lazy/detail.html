@@ -1,0 +1,215 @@
+{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+<style>
+.prism-player{color:#fff;text-align:center;}
+.prism-player .prism-big-play-btn{    left: 50% !important;
+    margin-left: -32px;}
+.open-iframe{width: 100%; height: 15rem; display:none; border:none;}
+</style>
+<div class="hui-wrap">
+	<div class="hui-center-title" style="width:90%;margin:0 auto;">
+		<h1 style="overflow:auto;width:unset;height: auto;line-height: 2rem;padding:10px;"><?php echo $product['name'];?></h1>
+	</div>
+	<div class="hui-content" style="padding:10px;word-break: break-all;width:90%;margin:0 auto;">
+	<?php 
+	//echo '<pre>';print_r($product['tag_ids']);exit;
+	foreach( $product['tag_ids'] as $k=>$l){
+	echo  '<a class="'.($k==$_GET['tag_id']?'hui-b-red':'hui-b-000').'" style="margin-right: 0.5rem;padding:3px 5px;word-break:keep-all;white-space:nowrap;" href="'.url('index',['d'=>$product['domain'],'tag_id'=>$k]).'">'.$l.'</a>';
+	}?>
+	</div>
+	<div class="hui-content" style="padding:10px;">
+
+<div class="prism-player" id="player-con"></div>
+<?php if(in_array($_GET['d'],['porn_video'])){
+?>
+		<iframe class="open-iframe"></iframe>
+<a href="<?php echo ($product['json']['source']['media_0']);?>" class=" hui-b-663" target="_blank">新窗口播放</a>
+
+<?php foreach($product['json']['source'] as $k=>$v){
+		if(stripos($k,'media_')!==false){
+			echo '<a class="btn-iframe hui-b-663" href="'.$v.'">视频'.$i++.'</a>'.PHP_EOL;
+		}
+	}?>
+<script>
+$('.btn-iframe').click(function(){
+	$('.prism-player').remove();
+	var src=$(this).attr('href')
+	$('.open-iframe').show().attr({'src':src});
+	return ;
+})
+
+</script>
+<?php }?>
+
+<link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.12.1/skins/default/aliplayer-min.css" />
+<script type="text/javascript" charset="utf-8" src="//g.alicdn.com/de/prismplayer/2.12.1/aliplayer-min.js"></script>
+<!--
+<link rel="stylesheet" href="__PUBLIC__/aliplayer/aliplayer-min.css" />
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/aliplayer/aliplayer-min.js"></script>
+-->
+<script>
+var player = new Aliplayer({
+  "id": "player-con",
+ "source": "<?php echo is_array($product['json']['source'])?($product['json']['source']['HD']?$product['json']['source']['HD']:$product['json']['source']['SD']):$product['json']['source'];?>",
+ "defaultDefinition":"720p",
+//"source": <?php echo is_array($product['json']['source'])?('JSON.stringify('.json_encode($product['json']['source']).')'):('"'.$product['json']['source'].'"');?>,
+// "source": <?php echo is_array($product['json']['source'])?('"'.$product['json']['source']['HD'].'"'):('"'.$product['json']['source'].'"');?>,
+  "cover": "<?php echo $product['json']['cover'];?>",
+  "width": "100%",
+  "height": "15rem",
+  "autoplay": false,
+  "showBuffer": true,
+  "showBarTime": '3000',
+  "qualitySort": 'desc',
+  "isLive": false,
+  "rePlay": false,
+  "playsinline": false,
+  "isVBR": true,
+  "preload": true,
+  "controlBarVisibility": "hover",
+  "useH5Prism": true,
+  "autoPlayDelay": "0.1",
+  "autoPlayDelayDisplayText": "加载中请稍等....",
+}, function (player) {
+    console.log("The player is created");
+  }
+);
+<?php if($_GET['d']=='xyz_pp'){?>
+var isFirst=0
+player.on('ready',function(e){
+	//console.log('play',e)
+	if(isFirst==0){
+		isFirst=1
+		//console.log('isFirst',isFirst)
+		$('.prism-setting-btn').click();
+		$('.prism-setting-list').hide();
+		setTimeout(function(){
+			$('body').find('.selector-list').each(function(e){
+				if(e==2){
+					var _li=  $(this).find('li')
+					//	console.log(_li.size())
+					  _li.eq(_li.size()-2).click();
+					 //  console.log($(this).html());
+
+				}
+			})
+		},100)
+	}
+	
+});
+<?php } ?>
+</script>
+
+
+<script>
+$(function(){
+	if('del'=='<?php echo $product['error']?>'){
+		$('#player-con').html('视频已被删除')
+	}
+})
+</script>
+
+		
+	</div>
+
+	
+	
+	<div class="hui-common-title" style="margin-top:15px;">
+		<div class="hui-common-title-line"></div>
+		<div class="hui-common-title-txt">相关视频</div>
+		<div class="hui-common-title-line"></div>
+	</div>
+    <style>
+    #list2 li{width:50%; float:left; 0px;}
+    #list2 .hui-img-list-content{padding:5px; padding-bottom:10px;}
+    #list2 h1{font-size:14px;}
+	.hui-img-list img.image{height:6rem;  background: #000;}
+    </style>
+    <div class="hui-img-list" id="list2" style="padding:10px 5px;">
+        <ul>
+		
+		<?php 
+		if($product['other']){
+			$other=$product['other'];
+		}
+
+		if($other){
+			foreach($other as $v){
+					echo ' <li>';
+                    echo ' <a href="'.url('',['orig_id'=>$v['orig_id'],'d'=>$v['domain']]).'">';
+                //        echo ' <img src="'.$v['json']['cover'].'"/>';
+			echo'<div class="image-info"><img src="'.$v['image'].'"  class="image"/></div>';
+			echo '	<img src="__TX_HUI__/img/video.png" class="play-btn">';
+                        echo ' <div class="hui-img-list-content">';
+                            echo ' <h1 style="height:30px;overflow:hidden;">'.$v['name'].'</h1>';
+                            echo ' <p></p>';
+                            echo ' </div> ';
+                        echo ' </a>';
+                    echo ' </li>';
+			
+			}
+		
+		}
+	
+		?>
+           
+          
+        </ul>
+    </div>
+	<script>
+
+		AjaxData('GET', '{:url('lazy/ajax',['page'=>1,'notid'=>$product['id'],'by'=>'id','d'=> $_GET['d'],'tag_id'=>@$_GET['tag_id']])}',{},function(res){
+			 if(res['code']=='000000'){
+			 var html='';
+					 $.each(res['info']['list'],function(n,v){
+						html+= '<li>';
+						html+= ' <a href="<?php echo url('',['d'=>$_GET['d'],'tag_id'=>$_GET['tag_id']])?>&orig_id='+v['orig_id']+'">';
+							html+= '<div class="image-info"><img src="'+v['image']+'"  class="image"/></div>';
+
+						 if ('{$_GET["d"]}'== 'xyz' || '{$_GET["d"]}' == 'xyz_pp' || '{$_GET["d"]}' == 'xvideos' || '{$_GET["d"]}'.indexOf('video')>=0) {
+							 html += '	<img src="__TX_HUI__/img/video.png" class="play-btn">';
+						 }
+							html+= ' <div class="hui-img-list-content">';
+							 html+= ' <h1 style="height:30px;overflow:hidden;">'+v['name']+'</h1>';
+							html+= ' <p></p>';
+							html+=  ' </div> ';
+							html+= ' </a>';
+						html+= ' </li>';
+					});
+				$('.hui-img-list ul').append(html);
+				$('.hui-img-list').find('img.image').each(function(){
+					$(this).load(function(e){
+						//console.log(e.readyState,$(this).attr('src'))
+						ImageThis($(this))
+					})
+				})
+			}else{
+				hui.toast(res['msg']);
+			}
+		})	
+
+	</script>
+
+
+
+	<script>
+	//<?php if(!$other){echo "AjaxData('GET', '".url('/api/spiderCron/cron',['d'=> $product['domain']])."',{},function(res){ console.log(res);})";}?>
+	</script>
+
+</div>
+<div  class="hui-fooer-line"></div>
+
+	
+
+
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}

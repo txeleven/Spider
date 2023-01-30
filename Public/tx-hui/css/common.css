@@ -1,0 +1,131 @@
+
+/* 必要的css  */
+.hui-news-list{padding:6px 10px;}
+.hui-news-list li{position:relative; width:100%; border-bottom:1px solid #E4E3E6; overflow:hidden;}
+.hui-news-list li:last-child{border:none;}
+.hui-news-list li a{display:block; overflow:hidden; padding:15px 0px;}
+.hui-news-list div{-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; word-break:break-word;}
+.hui-news-list-l{width:65%; float:left; line-height:1.6em; padding-right:10px; font-size:16px;}
+.hui-news-list-l span{color:#999999; font-size:11px;}
+.hui-news-list-r{width:32%; float:right;}
+.hui-news-list-r img{width:100%;}
+.hui-news-list-titile{line-height:1.6em; font-size:16px;}
+.hui-news-list-imgs{font-size:0px; padding-top:8px;}
+.hui-news-list-imgs img{display:block; width:33.3%; float:left; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; word-break:break-word; padding-right:5px;}
+.hui-news-list-img{font-size:0px; padding:8px 0px 5px 0px;}
+.hui-news-list-img img{width:100%;}
+.hui-news-list-info{color:#999999; font-size:11px; padding-top:8px; line-height:18px;}
+
+
+
+
+.hui-f-red,.hui-f-f00{ color: #d9534f !important; font-size: 0.8rem;}
+.hui-b-red,.hui-b-f00{ color: #d9534f !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #d9534f ; padding: 0 5px; }
+.hui-f-green { color: #3c763d !important; font-size: 0.8rem;}
+.hui-b-green { color: #3c763d !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #3c763d ; padding: 0 5px; }
+.hui-f-000{ color: #000 !important; font-size: 0.8rem;}
+.hui-b-000{ color: #000 !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #000; padding: 0 5px; }
+.hui-f-663{ color: #663803 !important; font-size: 0.8rem;}
+.hui-b-663{ color: #663803 !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #663803; padding: 0 5px; }
+.hui-f-bbb{ color: #bbb !important; font-size: 0.8rem;}
+.hui-b-bbb{ color: #bbb !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #bbb; padding: 0 5px; }
+
+.hui-f-f05{ color: #F05B0A !important; font-size: 0.8rem;}
+.hui-b-f05{ color: #F05B0A !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #F05B0A; padding: 0 5px; }
+.hui-font-8{font-size: 0.8rem; }
+
+.hui-f-408{ color: #408CBB !important; font-size: 0.8rem;}
+.hui-b-408{ color: #408CBB !important; font-size: 0.8rem;border-radius: 3px; border: 1px solid #F05B0A; padding: 0 5px; }
+.hui-font-8{font-size: 0.8rem; }
+.hui-span-with-8{display: inline-block; width: 8rem; }
+.hui-span-with-4_2{display: inline-block; width: 4.2rem; }
+
+
+.hui-center-money{ background: #3388FF; margin: 0 6%; width: 88%; overflow: hidden; border-radius: 20px; border-bottom: none;}
+.hui-center-money li{ width: 24.5%; float: left; border-left: 1px #8cbcff solid; text-align: center; display: block; font-size: 0.8rem; color: #fff;}
+.hui-center-money li{ text-align: center; display: block; font-size: 0.8rem; margin-top: 0rem;padding-top: 1rem; height: 3rem;}
+.hui-center-money li:first-child{border:none;}
+
+
+.hui-user-icon{}
+.hui-user-icon ul{padding: 0;margin: 0; background: #f0eff56b; padding: 10px 0;margin: 1rem;border-radius: 5px;}
+.hui-user-icon ul li{ width: 24%; display: inline-block; text-align: center;color: #fff; padding: 1rem 0;}
+.hui-user-icon ul li .hui-icons{padding-right: 0;}
+.hui-user-icon ul li :before{font-size:1.8rem;color: #3388FF; display: block;}
+.hui-user-icon ul li .hui-speed-dial-text{display: block;font-size:0.6rem;color: #333;}
+.hui-user-icon ul li .hui-speed-dial-text,.hui-user-icon ul li :before{ }
+
+
+
+
+
+.lazy-tags-more{ position: absolute;right:0;top:0; background-: #3388FF; color: #3388FF; line-height: 30px; padding: 14px 5% 0 0;}
+
+
+/**订单列表**/
+.lazy-tags{padding:10px 0; margin-left: 3%; height: 30px; overflow-x: auto; overflow-y: hidden;white-space:nowrap; width:95%;}
+.lazy-tags div{float: none; display: inline-block;}
+.lazy-tags-more{ position: absolute;right:0;top:0; background-: #3388FF; color: #3388FF; line-height: 30px; padding: 10px 5% 0 0;}
+.hui-order-list li{ height: 7rem; display: block; overflow: hidden;padding: 2px; border-bottom: 1px #eee solid;}
+.hui-order-list li .order-number-title{line-height: 1.5rem; margin: 0.3rem 0;background-:#f2f2f2;}
+.hui-order-list li .order-number-title span{ font-size: 0.9rem; color: #333;}
+.hui-order-list li a.info{ display: block;}
+.hui-order-list li .btn-order{ display:inline-block; width: auto; height:auto; line-height:1.8rem; font-size: 0.5rem;}
+.hui-order-list .hui-fl{float: left;   height: 4.6rem; width: 28%;}
+.hui-order-list .hui-fl img{ width: 100%;}
+.hui-order-list .hui-fr-info{ height:100%; width:70%;font-size: 0.8rem !important; color: #bbb;}
+.hui-order-list .hui-fr span{color: #bbb; }
+
+
+
+.hui-form-radios input[type="checkbox"] + label:before{color: #bbbbbbbb; line-height:22px; width:30px;display: inline-block;}
+
+.fa {display: block !important;text-align: center;font-size: 20px;height: 26px;line-height: 26px;}
+
+/*.hui-img-list img.video{height:6rem;  background: #000;}
+*/
+.hui-img-list .image-info{height:6rem;width:100%;}
+.hui-img-list .play-btn{position: absolute;width: 60px; top: 20px;left: 50%;margin-left:-30px;;background:none;}
+
+
+
+
+
+
+
+
+
+/*
+
+.hui-header{
+    background: #3975c6;
+}
+.hui-tags > div{
+    color: #408CBB;
+    border: 1px solid #3975c6;
+}
+.hui-tags-active{
+    background: #3975c6 !important;
+}
+#footer-logo{
+    background: #3975c6 !important;
+}
+.hui-footer-active .hui-footer-icons:before{
+    background: #3975c6 !important;
+}
+.hui-footer-active *{
+    color: #3975c6 !important;
+}
+
+.hui-footer-active *{
+    color: #3975c6 !important;
+}
+.hui-center-money{
+    background: rgb(47,152,213);
+}
+.hui-tab-active{
+    border-bottom-color: #3975c6 !important;
+    color: #3975c6;
+}
+.lazy-tags-more{ color: #3975c6 !important;}
+*/

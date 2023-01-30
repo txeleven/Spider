@@ -1,0 +1,126 @@
+{extend name="base:base" /}
+{block name="header"}
+
+{__block__}
+
+{/block}
+{block name="mainBody"}
+{__block__}
+<style type="text/css">
+    /* 自定义样式  */
+    #hui-header-sreach{ border-bottom: 1px solid #eee; padding-bottom: 10px;}
+    #hui-header-sreach input{ width: 80%;}
+    .hui-hot-sreach{background:#FFFFFF; padding:12px;}
+    .hui-hot-sreach-title{line-height:38px; font-size:15px; font-weight:700;}
+    .hui-hot-sreach-keys{margin-top:8px;}
+    .hui-hot-sreach-keys a{display:block; border-radius:5px; float:left; margin:0 8px 10px 0px; padding:6px 10px; line-height:20px; font-size:13px; background:#EFF3F6;}
+</style>
+<div class="hui-wrap">
+    <div id="hui-header-sreach">
+        <div id="hui-header-sreach-icon"></div>
+        <input type="search" id="searchKey" placeholder="请输入商品关键字" />
+		
+    </div>
+
+    <div class="hui-hot-sreach">
+       <!-- <div class="hui-hot-sreach-title">排序</div>
+        <div class="hui-hot-sreach-keys">
+            <a href="javascript:;">随机</a>
+        </div>
+        <div class="hui-hot-sreach-title">来源</div>
+        -->
+        <div class="hui-hot-sreach-keys dataFrom">
+            <a href="javascript:;"  value="l">本机</a>
+            <a href="javascript:;"  value="v">抓取</a>
+        </div>
+        <script>
+            $(function(){
+                   $('.dataFrom a').click(function(){
+                       console.log(1)
+
+                       if($(this).hasClass('hui-tags-active')){
+                           $(this).parent().find('a').removeClass('hui-tags-active')
+                          // $(this).removeClass('hui-tags-active')
+                       }else{
+                           $(this).parent().find('a').removeClass('hui-tags-active')
+                           $(this).addClass('hui-tags-active')
+                       }
+                   })
+            })
+        </script>
+
+
+        <div class="hui-hot-sreach-title">热搜</div>
+        <div class="hui-hot-sreach-keys tag-list">
+		<?php
+		 if($tag_list ){
+		    foreach($tag_list as $k=>$l){
+			echo ' <a href="'.url('index',['d'=>$_GET['d'],'tag_id'=>$l['id']]).'">'.$l['tag_name'].'</a>';
+		    }
+        }
+        ?>
+
+        </div>
+		<!--
+        <div class="hui-hot-sreach-title">历史</div>
+        <div class="hui-hot-sreach-keys">
+            <a href="javascript:hotSearch('台式电脑');">台式电脑</a>
+        </div>
+		-->
+    </div>
+</div>
+<script>
+		$(function(){
+			var str='';
+			$("a,input").on('keyup',function(){
+				if(event.keyCode==13){
+                    var f='';
+                    if($(this).attr('href')){
+                        f=$(this).attr('value');
+                    }else{
+                        f=$('.dataFrom').find('a.hui-tags-active').attr('value');
+                    }
+                    var url='<?php echo url('index',['d'=>$_GET['d']])?>&search='+$(this).val()+'&f='+f;
+				//	console.log(url);return ;
+                    window.location.href=url;
+				}else{
+					var _val=$.trim($(this).val())
+						AjaxData('GET', '{:url('/api/lazy/tag',['page'=>1,'d'=> $_GET['d']])}&search='+_val,{},function(res){
+							console.log(res)
+							 if(res['code']=='000000'){
+							 var html='';
+									 $.each(res['info']['list'],function(n,v){
+										html+= '<a href="<?php echo url('index',['d'=>$_GET['d']])?>&tag_id='+v['id']+'">'+v['tag_name']+'</a>';
+									});
+								$('.tag-list').html(html);
+							}else{
+							hui.toast(res['msg']);
+							}
+						})	
+						
+		
+					/*
+					if(str!=_val){
+						str=_val;
+						$('.hui-hot-sreach-keys').find('a').each(function(){
+							if($(this).text().indexOf(str) !=-1){
+								$(this).show();
+							}else{
+								$(this).hide();
+							}
+						})
+						//console.log(str+'abc');
+					}*/
+				}
+				
+			});
+			
+		})
+		
+		</script>
+
+{/block}
+{block name="footer"}
+{__block__}
+
+{/block}
